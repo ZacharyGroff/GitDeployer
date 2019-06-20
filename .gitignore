@@ -5,6 +5,7 @@
 *.so
 *.dylib
 *.swp
+GitHooks
 
 # Test binary, build with `go test -c`
 *.test
