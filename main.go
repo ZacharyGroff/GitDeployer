@@ -4,11 +4,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"io/ioutil"
 )
 
 func webhookHandler(writer http.ResponseWriter, request *http.Request) {
+	body, _ := ioutil.ReadAll(request.Body)
 	fmt.Printf("Headers:\n%v\n\n", request.Header)
-	fmt.Printf("Body:\n%v\n", request.Body)
+	fmt.Printf("Body:\n%s\n", body)
 }
 
 func main() {
