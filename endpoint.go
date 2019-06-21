@@ -14,8 +14,20 @@ type Endpoint struct {
 
 func handler(writer http.ResponseWriter, request *http.Request) {
 	body, _ := ioutil.ReadAll(request.Body)
+	event := request.Header["X-Github-Event"][0]
+	
 	fmt.Printf("Headers:\n%v\n\n", request.Header)
-	fmt.Printf("Body:\n%s\n", body)
+	fmt.Printf("Body:\n%s\n\n", body)
+	fmt.Printf("X-GitHub-Event: %s\n", event)
+
+	routeEvent(event, request)
+}
+
+func routeEvent(event string, request *http.Request) {
+	switch event {
+		case "push":
+			fmt.Println("Push event detected.")
+	}
 }
 
 func (endpoint Endpoint) Start() {
