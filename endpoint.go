@@ -8,8 +8,7 @@ import (
 )
 
 type Endpoint struct {
-	port uint16
-	route string
+	config *Config
 }
 
 func handler(writer http.ResponseWriter, request *http.Request) {
@@ -33,8 +32,7 @@ func routeEvent(event string, request *http.Request) {
 }
 
 func (endpoint Endpoint) Start() {
-	portString := fmt.Sprintf(":%d", endpoint.port)
-	log.Printf("Starting endpoint on port%s\n", portString)
-	http.HandleFunc(endpoint.route, handler)
-	log.Fatal(http.ListenAndServe(portString, nil))
+	log.Printf("Starting endpoint on port%s\n", endpoint.config.port)
+	http.HandleFunc(endpoint.config.route, handler)
+	log.Fatal(http.ListenAndServe(endpoint.config.port, nil))
 }
