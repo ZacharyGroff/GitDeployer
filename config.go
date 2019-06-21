@@ -22,7 +22,7 @@ func parseConfig() (*Config, error) {
 	return &config, err
 }
 
-func NewConfiguration() *Config {
+func NewConfig() *Config {
 	configPtr, err := parseConfig()
 	
 	if err != nil {
