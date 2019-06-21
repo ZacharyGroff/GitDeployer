@@ -25,8 +25,10 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 
 func routeEvent(event string, request *http.Request) {
 	switch event {
-		case "push":
-			fmt.Println("Push event detected.")
+	case "push":
+		fmt.Println("Push event detected.")
+	default:
+		log.Printf("Unhandled event %s detected.\n", event)
 	}
 }
 
