@@ -1,32 +1,33 @@
+package main
+
 import (
 	"encoding/json"
 	"os"
-	"fmt"
 	"log"
 )
 
-type Configuration struct {
+type Config struct {
 	port string
 	route string
 	validate bool
 }
 
-func parseConfig() Configuration {
+func parseConfig() (*Config, error) {
 	file, _ := os.Open("conf.json")
 	defer file.Close()
 	decoder := json.NewDecoder(file)	
-	conf := Configuration{}
-	err := decoder.Decode(&conf)
+	config := Config{}
+	err := decoder.Decode(&config)
 	
-	return conf, err
+	return &config, err
 }
 
-func NewConfiguration() Configuration {
-	conf, err = parseConfig()
+func NewConfiguration() *Config {
+	configPtr, err := parseConfig()
 	
 	if err != nil {
-		log.Printf("Error while parsing config")
+		log.Fatal("Error while parsing config")
 	}
 	
-	return conf
+	return configPtr
 }
