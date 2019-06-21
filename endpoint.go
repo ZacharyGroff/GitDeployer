@@ -32,7 +32,7 @@ func routeEvent(event string, request *http.Request) {
 }
 
 func (endpoint Endpoint) Start() {
-	log.Printf("Starting endpoint on port%s\n", endpoint.config.port)
-	http.HandleFunc(endpoint.config.route, handler)
-	log.Fatal(http.ListenAndServe(endpoint.config.port, nil))
+	log.Printf("Starting endpoint on port%s\n", endpoint.config.Port)
+	http.HandleFunc(endpoint.config.Route, handler)
+	log.Fatal(http.ListenAndServe(endpoint.config.Port, nil))
 }

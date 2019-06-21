@@ -4,20 +4,21 @@ import (
 	"encoding/json"
 	"os"
 	"log"
+	"io/ioutil"
 )
 
 type Config struct {
-	port string
-	route string
-	validate bool
+	Port string `json:"port"`
+	Route string `json:"route"`
+	Validate bool `json:"validate"`
 }
 
 func parseConfig() (*Config, error) {
-	file, _ := os.Open("conf.json")
+	file, err := os.Open("conf.json")
 	defer file.Close()
-	decoder := json.NewDecoder(file)	
-	config := Config{}
-	err := decoder.Decode(&config)
+	byteValue, _ := ioutil.ReadAll(file)
+	var config Config
+	json.Unmarshal(byteValue, &config)
 	
 	return &config, err
 }
