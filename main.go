@@ -1,7 +1,6 @@
 package main
 
 func main() {
-	config := NewConfig() 
-	endpoint := Endpoint{config}
+	endpoint := InitializeEndpoint()
 	endpoint.Start()
 }
