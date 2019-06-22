@@ -24,11 +24,11 @@ func parseConfig() (*Config, error) {
 }
 
 func NewConfig() *Config {
-	configPtr, err := parseConfig()
+	config, err := parseConfig()
 	
 	if err != nil {
 		log.Fatal("Error while parsing config")
 	}
 	
-	return configPtr
+	return config
 }

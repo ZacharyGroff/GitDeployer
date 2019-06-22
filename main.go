@@ -1,7 +1,7 @@
 package main
 
 func main() {
-	configPtr := NewConfig() 
-	endpoint := Endpoint{configPtr}
+	config := NewConfig() 
+	endpoint := Endpoint{config}
 	endpoint.Start()
 }
