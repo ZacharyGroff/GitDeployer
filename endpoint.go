@@ -31,6 +31,10 @@ func routeEvent(event string, request *http.Request) {
 	}
 }
 
+func NewEndpoint(config *Config) Endpoint {
+	return Endpoint{config}
+}
+
 func (endpoint Endpoint) Start() {
 	log.Printf("Starting endpoint on port%s\n", endpoint.config.Port)
 	http.HandleFunc(endpoint.config.Route, handler)
