@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 
 func TestParseConfigPort(t *testing.T) {
 	config := Config{}
-	config.ParseConfig("conf_test.json")
+	config.parseConfig("conf_test.json")
 	
 	expected := ":42"
 	actual := config.Port
@@ -18,7 +18,7 @@ func TestParseConfigPort(t *testing.T) {
 
 func TestParseConfigRoute(t *testing.T) {
 	config := Config{}
-	config.ParseConfig("conf_test.json")
+	config.parseConfig("conf_test.json")
 	
 	expected := "/test"
 	actual := config.Route
@@ -29,7 +29,7 @@ func TestParseConfigRoute(t *testing.T) {
 
 func TestParseConfigValidate(t *testing.T) {
 	config := Config{}
-	config.ParseConfig("conf_test.json")
+	config.parseConfig("conf_test.json")
 	
 	expected := true
 	actual := config.Validate

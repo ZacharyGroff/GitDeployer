@@ -2,9 +2,12 @@
 
 package main
 
-import "github.com/google/wire"
+import (
+	"github.com/google/wire"
+	"config"
+)
 
 func InitializeEndpoint() Endpoint {
-	wire.Build(NewEndpoint, NewConfig)
+	wire.Build(NewEndpoint, config.NewConfig)
 	return Endpoint{}
 }

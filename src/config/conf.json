@@ -1,5 +1,5 @@
 {
 	"port": ":8080",
 	"route": "/webhook",
-	"validate": 0
+	"validate": false
 }

@@ -5,10 +5,14 @@
 
 package main
 
+import (
+	"config"
+)
+
 // Injectors from wire.go:
 
 func InitializeEndpoint() Endpoint {
-	config := NewConfig()
-	endpoint := NewEndpoint(config)
+	configConfig := config.NewConfig()
+	endpoint := NewEndpoint(configConfig)
 	return endpoint
 }

@@ -5,10 +5,11 @@ import (
 	"log"
 	"net/http"
 	"io/ioutil"
+	"config"
 )
 
 type Endpoint struct {
-	config *Config
+	config *config.Config
 }
 
 func handler(writer http.ResponseWriter, request *http.Request) {
@@ -31,7 +32,7 @@ func routeEvent(event string, request *http.Request) {
 	}
 }
 
-func NewEndpoint(config *Config) Endpoint {
+func NewEndpoint(config *config.Config) Endpoint {
 	return Endpoint{config}
 }
 

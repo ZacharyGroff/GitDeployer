@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"encoding/json"
@@ -13,7 +13,7 @@ type Config struct {
 	Validate bool `json:"validate"`
 }
 
-func (config *Config) ParseConfig(path string) error {
+func (config *Config) parseConfig(path string) error {
 	file, err := os.Open(path)
 	defer file.Close()
 	byteValue, _ := ioutil.ReadAll(file)
@@ -24,7 +24,7 @@ func (config *Config) ParseConfig(path string) error {
 
 func NewConfig() *Config {
 	config := Config{}
-	err := config.ParseConfig("conf.json")
+	err := config.parseConfig("src/config/conf.json")
 	
 	if err != nil {
 		log.Fatal("Error while parsing config")
