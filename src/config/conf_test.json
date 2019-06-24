@@ -1,0 +1,5 @@
+{
+	"port": ":42",
+	"route": "/test",
+	"validate": true
+}
