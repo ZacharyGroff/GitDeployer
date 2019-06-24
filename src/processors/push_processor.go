@@ -1,4 +1,4 @@
-package main
+package processors
 
 import (
 	"log"
@@ -13,6 +13,6 @@ func NewPushProcessor(deployer *Deployer, config *Config) *PushProcessor {
 	return &PushProcessor{deployer, config}
 }
 
-func HandleRequest(request Request) {
+func handleRequest(request Request) {
 	log.Printf("New push request: %s\n", request)
 }
