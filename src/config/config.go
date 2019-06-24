@@ -10,6 +10,7 @@ import (
 type Config struct {
 	Port string `json:"port"`
 	Route string `json:"route"`
+	ScriptPath string `json:"scriptPath"`
 	Validate bool `json:"validate"`
 }
 

@@ -1,22 +1,21 @@
 package processors
 
 import (
-	"bufio"
 	"log"
-	"os"
-	"strings"
+	"os/exec"
+	"config"
 )
 
 type Deployer struct {
-	scriptPath string
+	config *config.Config
 }
 
-func NewDeployer(scriptPath string) *Deployer {
-	return &Deployer{scriptPath} 
+func NewDeployer(config *config.Config) *Deployer {
+	return &Deployer{config} 
 }
 
-func (deployer Deployer) Deploy() Error {
-	out, err := os.exec.Command(deyployer.scriptPath).Output()
+func (deployer Deployer) Deploy() {
+	out, err := exec.Command(deployer.config.ScriptPath).Output()
 	
 	if err != nil {
 		log.Fatal("Error while deploying")

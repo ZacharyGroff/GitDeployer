@@ -2,17 +2,19 @@ package processors
 
 import (
 	"log"
+	"net/http"
+	"config"
 )
 
 type PushProcessor struct {
 	Deployer *Deployer
-	Config *Config
+	Config *config.Config
 }
 
-func NewPushProcessor(deployer *Deployer, config *Config) *PushProcessor {
+func NewPushProcessor(deployer *Deployer, config *config.Config) *PushProcessor {
 	return &PushProcessor{deployer, config}
 }
 
-func handleRequest(request Request) {
+func (pushProcessor PushProcessor) HandleRequest(request *http.Request) {
 	log.Printf("New push request: %s\n", request)
 }
