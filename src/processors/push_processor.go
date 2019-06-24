@@ -16,5 +16,5 @@ func NewPushProcessor(deployer *Deployer, config *config.Config) *PushProcessor 
 }
 
 func (pushProcessor PushProcessor) HandleRequest(request *http.Request) {
-	log.Printf("New push request: %s\n", request)
+	log.Printf("New push request: %+v\n", request)
 }

@@ -14,12 +14,12 @@ func NewDeployer(config *config.Config) *Deployer {
 	return &Deployer{config} 
 }
 
-func (deployer Deployer) Deploy() {
+func (deployer Deployer) Deploy() string {
 	out, err := exec.Command(deployer.config.ScriptPath).Output()
 	
 	if err != nil {
 		log.Fatal("Error while deploying")
 	}
-	
-	log.Printf("Successfully deployed script with output:\n%s\n", out)
+
+	return string(out)	
 }
