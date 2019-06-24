@@ -2,7 +2,7 @@ package processors
 
 import (
 	"testing"
-	"config"
+	"github.com/ZacharyGroff/GitHooks/config"
 	"os"
 	"strings"
 )

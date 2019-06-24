@@ -4,8 +4,8 @@ package main
 
 import (
 	"github.com/google/wire"
-	"config"
-	"processors"
+	"github.com/ZacharyGroff/GitHooks/config"
+	"github.com/ZacharyGroff/GitHooks/processors"
 )
 
 func InitializeEndpoint() Endpoint {

@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 	"io/ioutil"
-	"config"
-	"processors"
+	"github.com/ZacharyGroff/GitHooks/config"
+	"github.com/ZacharyGroff/GitHooks/processors"
 )
 
 type Endpoint struct {

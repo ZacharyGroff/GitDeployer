@@ -3,7 +3,7 @@ package processors
 import (
 	"log"
 	"os/exec"
-	"config"
+	"github.com/ZacharyGroff/GitHooks/config"
 )
 
 type Deployer struct {

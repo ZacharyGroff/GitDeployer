@@ -3,7 +3,7 @@ package processors
 import (
 	"log"
 	"net/http"
-	"config"
+	"github.com/ZacharyGroff/GitHooks/config"
 )
 
 type PushProcessor struct {
