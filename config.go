@@ -13,22 +13,22 @@ type Config struct {
 	Validate bool `json:"validate"`
 }
 
-func parseConfig() (*Config, error) {
-	file, err := os.Open("conf.json")
+func (config *Config) ParseConfig(path string) error {
+	file, err := os.Open(path)
 	defer file.Close()
 	byteValue, _ := ioutil.ReadAll(file)
-	var config Config
 	json.Unmarshal(byteValue, &config)
 	
-	return &config, err
+	return err
 }
 
 func NewConfig() *Config {
-	config, err := parseConfig()
+	config := Config{}
+	err := config.ParseConfig("conf.json")
 	
 	if err != nil {
 		log.Fatal("Error while parsing config")
 	}
 	
-	return config
+	return &config
 }
