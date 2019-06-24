@@ -6,8 +6,8 @@
 package main
 
 import (
-	"config"
-	"processors"
+	"github.com/ZacharyGroff/GitHooks/config"
+	"github.com/ZacharyGroff/GitHooks/processors"
 )
 
 // Injectors from wire.go:
