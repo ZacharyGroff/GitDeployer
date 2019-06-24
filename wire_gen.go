@@ -7,12 +7,15 @@ package main
 
 import (
 	"config"
+	"processors"
 )
 
 // Injectors from wire.go:
 
 func InitializeEndpoint() Endpoint {
 	configConfig := config.NewConfig()
-	endpoint := NewEndpoint(configConfig)
+	deployer := processors.NewDeployer(configConfig)
+	pushProcessor := processors.NewPushProcessor(deployer, configConfig)
+	endpoint := NewEndpoint(configConfig, pushProcessor)
 	return endpoint
 }
