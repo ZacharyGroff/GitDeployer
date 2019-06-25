@@ -18,7 +18,7 @@ func (deployer Deployer) Deploy() string {
 	out, err := exec.Command(deployer.config.ScriptPath).Output()
 	
 	if err != nil {
-		log.Fatal("Error while deploying:\n%s\n", err)
+		log.Fatalf("Error while deploying:\n%s\n", err)
 	}
 
 	return string(out)	
