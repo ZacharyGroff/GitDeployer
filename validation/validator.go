@@ -2,8 +2,10 @@ package validation
 
 import (
 	"os"
+	"log"
 	"crypto/hmac"
 	"crypto/sha1"
+	"encoding/hex"
 
 	"github.com/ZacharyGroff/GitHooks/config"
 )
@@ -19,9 +21,16 @@ func (v Validator) ValidateHMAC(message []byte, messageHMAC []byte) bool {
 	}
 	
 	hash := hmac.New(sha1.New, v.secret)
-	hash.Write([]byte(message))
-	
-	return hmac.Equal(hash.Sum(nil), messageHMAC)
+	_, err := hash.Write([]byte(message))
+
+	if err != nil {
+		log.Printf("Error creating the message hash. Error: %s", err)
+		return false
+	}
+
+	hexHash := hex.EncodeToString(hash.Sum(nil))	
+	log.Printf("hash: %s", hexHash)
+	return hmac.Equal([]byte(hexHash), messageHMAC)
 }
 
 func NewValidator(config *config.Config) *Validator {

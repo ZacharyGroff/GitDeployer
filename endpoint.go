@@ -27,7 +27,8 @@ func (endpoint Endpoint) handler(writer http.ResponseWriter, request *http.Reque
 	fmt.Printf("X-GitHub-Event: %s\n", event)
 	fmt.Printf("X-Hub-Signature: %s\n", hmac)
 
-	if endpoint.validator.ValidateHMAC(body, []byte(hmac)) {
+	// 5: to remove "sha1="
+	if endpoint.validator.ValidateHMAC(body, []byte(hmac)[5:]) {
 		endpoint.routeEvent(event, request)
 	} else {
 		log.Fatalf("Message validation failed. Message HMAC: %s\n", hmac)
