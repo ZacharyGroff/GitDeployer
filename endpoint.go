@@ -5,24 +5,33 @@ import (
 	"log"
 	"net/http"
 	"io/ioutil"
+
 	"github.com/ZacharyGroff/GitHooks/config"
 	"github.com/ZacharyGroff/GitHooks/processors"
+	"github.com/ZacharyGroff/GitHooks/validation"
 )
 
 type Endpoint struct {
 	config *config.Config
 	pushProcessor *processors.PushProcessor
+	validator *validation.Validator
 }
 
 func (endpoint Endpoint) handler(writer http.ResponseWriter, request *http.Request) {
 	body, _ := ioutil.ReadAll(request.Body)
 	event := request.Header["X-Github-Event"][0]
+	hmac := request.Header["X-Hub-Signature"][0]
 	
 	fmt.Printf("Headers:\n%v\n\n", request.Header)
 	fmt.Printf("Body:\n%s\n\n", body)
 	fmt.Printf("X-GitHub-Event: %s\n", event)
+	fmt.Printf("X-Hub-Signature: %s\n", hmac)
 
-	endpoint.routeEvent(event, request)
+	if endpoint.validator.ValidateHMAC(body, []byte(hmac)) {
+		endpoint.routeEvent(event, request)
+	} else {
+		log.Fatalf("Message validation failed. Message HMAC: %s\n", hmac)
+	}
 }
 
 func (endpoint Endpoint) routeEvent(event string, request *http.Request) {
@@ -34,8 +43,11 @@ func (endpoint Endpoint) routeEvent(event string, request *http.Request) {
 	}
 }
 
-func NewEndpoint(config *config.Config, pushProcessor *processors.PushProcessor) Endpoint {
-	return Endpoint{config, pushProcessor}
+func NewEndpoint(
+	config *config.Config, 
+	pushProcessor *processors.PushProcessor, 
+	validator *validation.Validator) Endpoint {
+	return Endpoint{config, pushProcessor, validator}
 }
 
 func (endpoint Endpoint) Start() {

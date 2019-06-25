@@ -8,6 +8,7 @@ package main
 import (
 	"github.com/ZacharyGroff/GitHooks/config"
 	"github.com/ZacharyGroff/GitHooks/processors"
+	"github.com/ZacharyGroff/GitHooks/validation"
 )
 
 // Injectors from wire.go:
@@ -16,6 +17,7 @@ func InitializeEndpoint() Endpoint {
 	configConfig := config.NewConfig()
 	deployer := processors.NewDeployer(configConfig)
 	pushProcessor := processors.NewPushProcessor(deployer, configConfig)
-	endpoint := NewEndpoint(configConfig, pushProcessor)
+	validator := validation.NewValidator(configConfig)
+	endpoint := NewEndpoint(configConfig, pushProcessor, validator)
 	return endpoint
 }
