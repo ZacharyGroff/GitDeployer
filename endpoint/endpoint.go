@@ -19,15 +19,14 @@ type Endpoint struct {
 
 
 func (endpoint Endpoint) handler(writer http.ResponseWriter, request *http.Request) {
-	message := models.Message{}
-	message.FromRequest(request)
+	message := models.NewMessage(request)
 	
 	fmt.Printf("Body:\n%s\n\n", message.Body)
 	fmt.Printf("X-GitHub-Event: %s\n", message.Event)
 	fmt.Printf("X-Hub-Signature: %s\n", message.Hmac)
 
-	if endpoint.validator.ValidateHMAC(&message) {
-		endpoint.routeEvent(&message)
+	if endpoint.validator.ValidateHMAC(message) {
+		endpoint.routeEvent(message)
 	} else {
 		log.Fatalf("Message validation failed. Message HMAC: %s\n", message.Hmac)
 	}
