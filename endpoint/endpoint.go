@@ -1,14 +1,14 @@
-package main
+package endpoint
 
 import (
 	"fmt"
 	"log"
 	"net/http"
-	"io/ioutil"
 
 	"github.com/ZacharyGroff/GitHooks/config"
 	"github.com/ZacharyGroff/GitHooks/processors"
 	"github.com/ZacharyGroff/GitHooks/validation"
+	"github.com/ZacharyGroff/GitHooks/models"
 )
 
 type Endpoint struct {
@@ -19,8 +19,8 @@ type Endpoint struct {
 
 
 func (endpoint Endpoint) handler(writer http.ResponseWriter, request *http.Request) {
-	message := Message{}
-	message.fromRequest(request)
+	message := models.Message{}
+	message.FromRequest(request)
 	
 	fmt.Printf("Body:\n%s\n\n", message.Body)
 	fmt.Printf("X-GitHub-Event: %s\n", message.Event)
@@ -29,11 +29,11 @@ func (endpoint Endpoint) handler(writer http.ResponseWriter, request *http.Reque
 	if endpoint.validator.ValidateHMAC(&message) {
 		endpoint.routeEvent(&message)
 	} else {
-		log.Fatalf("Message validation failed. Message HMAC: %s\n", hmac)
+		log.Fatalf("Message validation failed. Message HMAC: %s\n", message.Hmac)
 	}
 }
 
-func (endpoint Endpoint) routeEvent(message *Message) {
+func (endpoint Endpoint) routeEvent(message *models.Message) {
 	switch message.Event {
 	case "push":
 		endpoint.pushProcessor.HandleMessage(message)

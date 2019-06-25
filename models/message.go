@@ -1,4 +1,4 @@
-package main
+package models
 
 import (
 	"net/http"
@@ -7,11 +7,11 @@ import (
 
 type Message struct {
 	Event string
-	Body string
+	Body []byte
 	Hmac []byte
 }
 
-func (message Message) fromRequest(request *Request) {
+func (message Message) FromRequest(request *http.Request) {
 	fullHmac := request.Header["X-Hub-Signature"][0]
 	
 	message.Event = request.Header["X-Github-Event"][0]

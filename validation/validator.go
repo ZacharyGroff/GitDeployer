@@ -8,7 +8,7 @@ import (
 	"encoding/hex"
 
 	"github.com/ZacharyGroff/GitHooks/config"
-	"github.com/ZacharyGroff/GitHook/endpoint"
+	"github.com/ZacharyGroff/GitHooks/models"
 )
 
 type Validator struct {
@@ -16,7 +16,7 @@ type Validator struct {
 	secret []byte
 }
 
-func (validator Validator) ValidateHMAC(message *main.Message) bool {
+func (validator Validator) ValidateHMAC(message *models.Message) bool {
 	if validator.config.Validate == false {
 		return true
 	}
