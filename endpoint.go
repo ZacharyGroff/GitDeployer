@@ -17,30 +17,28 @@ type Endpoint struct {
 	validator *validation.Validator
 }
 
-func (endpoint Endpoint) handler(writer http.ResponseWriter, request *http.Request) {
-	body, _ := ioutil.ReadAll(request.Body)
-	event := request.Header["X-Github-Event"][0]
-	hmac := request.Header["X-Hub-Signature"][0]
-	
-	fmt.Printf("Headers:\n%v\n\n", request.Header)
-	fmt.Printf("Body:\n%s\n\n", body)
-	fmt.Printf("X-GitHub-Event: %s\n", event)
-	fmt.Printf("X-Hub-Signature: %s\n", hmac)
 
-	// 5: to remove "sha1="
-	if endpoint.validator.ValidateHMAC(body, []byte(hmac)[5:]) {
-		endpoint.routeEvent(event, request)
+func (endpoint Endpoint) handler(writer http.ResponseWriter, request *http.Request) {
+	message := Message{}
+	message.fromRequest(request)
+	
+	fmt.Printf("Body:\n%s\n\n", message.Body)
+	fmt.Printf("X-GitHub-Event: %s\n", message.Event)
+	fmt.Printf("X-Hub-Signature: %s\n", message.Hmac)
+
+	if endpoint.validator.ValidateHMAC(&message) {
+		endpoint.routeEvent(&message)
 	} else {
 		log.Fatalf("Message validation failed. Message HMAC: %s\n", hmac)
 	}
 }
 
-func (endpoint Endpoint) routeEvent(event string, request *http.Request) {
-	switch event {
+func (endpoint Endpoint) routeEvent(message *Message) {
+	switch message.Event {
 	case "push":
-		endpoint.pushProcessor.HandleRequest(request)
+		endpoint.pushProcessor.HandleMessage(message)
 	default:
-		log.Printf("Unhandled event %s detected.\n", event)
+		log.Printf("Unhandled event %s detected.\n", message.Event)
 	}
 }
 
