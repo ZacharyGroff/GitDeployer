@@ -1,8 +1,9 @@
 language: go
-
 before_install:
-  - go get github.com/google/wire 
-  - go test -v ./...
-
+- go get github.com/google/wire
+- go test -v ./...
 go:
-  - 1.x
+- 1.x
+notifications:
+  slack:
+    secure: ZfrSTMqq1J5fMS5dbq2krMQQZEivWZI6GlujW8bh5/q5WMh2JTj83GHv7hVk0LUHnkcUyhc+1MjHz4lqJ/FqD2G5g8tqaU+mQgl0xhrFjda0qED96bpnYYi+d0ZmLUwxkXKk0B30iBE+gcHorPBklh0OhkrlNI5+c/cYlN2mBUTDl+p9Qm1gIbsHIYxcdOYIykXMXbMAyCKGJZ2hTzpJY//IB159jRPppbdyXUtP47rJtK2srGoLUNHpGFavjeT+2Wa7EeOV1Xs1mJok97IH8gjqvq8F4qmkJKAJwoJkkfOD5jcUeCQUw+JUDva+D6TBGAAf1z57/D44j9dANf0+hZ7sUPyxrpVAez9jVX9HfhRMvnxvTEwurNtVxYF+Lc4zUaPd6u87JRop84kb0eY9ymJe0pqYds7YpGZWHRurudqBt/TJs+3y1D7wNjueTLE+yt0s8KqGcZaBMYIeki0jKBBYZRKEcJqqp7RV2SSEBXXp+uXuZ0Z4ff00RNsZu2AFZQggYjBmdKyTmnuIIu5LsTcLsXGCIEczvv/BHVOXqEk8AVK2QMuq1wcPBG90hyPd7pX2X213ShUdO+NcLSEBFP/SvSrLfE0OOlLh9I5HB7it5lKns7m94NWMj8qRd9+fr0b6j7+HgFRTn0y+9IzvyIJEPyC8L+a8oRCa6AOTvjI=
