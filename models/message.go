@@ -11,13 +11,17 @@ type Message struct {
 	Hmac []byte
 }
 
-func NewMessage(request *http.Request) *Message {
+func parseRequest(message *Message, request *http.Request) *Message {
 	fullHmac := request.Header["X-Hub-Signature"][0]
 	
-	message := Message{}	
 	message.Event = request.Header["X-Github-Event"][0]
 	message.Body, _ = ioutil.ReadAll(request.Body)
 	message.Hmac = []byte(fullHmac[5:])
 
-	return &message
+	return message
+}
+
+func NewMessage(request *http.Request) *Message { 
+	message := Message{}
+	return parseRequest(&message, request)
 }
