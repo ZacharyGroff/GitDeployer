@@ -6,50 +6,29 @@ import (
 	"net/http/httptest"
 )
 
-func TestParseRequestEvent(t *testing.T) {
+func TestGetHeaderKeySuccess(t *testing.T) {
 	expected := "testEvent"
 	
 	request := httptest.NewRequest("POST", "/", strings.NewReader("testBody"))
 	request.Header.Add("X-Github-Event", "testEvent")
-	request.Header.Add("X-Hub-Signature", "sha1=test")
-	
-	message := Message{}
-	parseRequest(&message, request)
-	actual := message.Event
+
+	message := NewMessage(request.Header, request.Body)		
+	actual := message.GetHeaderKey("X-Github-Event")
 
 	if strings.Compare(expected, actual) != 0 {
 		t.Errorf("Expected: %s\nActual: %s\n", expected, actual)
 	}
 }
 
-func TestParseRequestBody(t *testing.T) {
-	expected := "testBody"
+func TestGetHeaderKeyPanics(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("GetHeaderKey did not panic.")
+		}
+	}		
 	
 	request := httptest.NewRequest("POST", "/", strings.NewReader("testBody"))
-	request.Header.Add("X-Github-Event", "testEvent")
-	request.Header.Add("X-Hub-Signature", "sha1=test")
 	
-	message := Message{}
-	parseRequest(&message, request)
-	actual := string(message.Body)	
-
-	if strings.Compare(expected, actual) != 0 {
-		t.Errorf("Expected: %s\nActual: %s\n", expected, actual)
-	}
-}
-
-func TestParseRequestHmac(t *testing.T) {
-	expected := "testHmac"
-	
-	request := httptest.NewRequest("POST", "/", strings.NewReader("testBody"))
-	request.Header.Add("X-Github-Event", "testEvent")
-	request.Header.Add("X-Hub-Signature", "sha1=testHmac")
-	
-	message := Message{}
-	parseRequest(&message, request)
-	actual := string(message.Hmac)	
-
-	if strings.Compare(expected, actual) != 0 {
-		t.Errorf("Expected: %s\nActual: %s\n", expected, actual)
-	}
+	message := NewMessage(request.Header, request.Body)
+	actual := message.GetHeaderKey("X-Github-Event")
 }
