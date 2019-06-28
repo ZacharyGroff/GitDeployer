@@ -1,5 +1,5 @@
 package models
 
 type Payload interface {
-	parsePayload()
+	parsePayload([]byte) error
 }

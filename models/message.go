@@ -12,18 +12,18 @@ type Message struct {
 	Payload Payload
 }
 
-func (message Message) GetHeaderField(key string) (string, Error) {
-	field := message.Header.get(key)
+func (message Message) GetHeaderField(key string) (string, error) {
+	field := message.Header.Get(key)
 
 	if strings.Compare(field, "") == 0 {
 		err := fmt.Errorf("Header Field %s not found", key)
-		return nil, err
+		return field, err
 	}
 
 	return field, nil
 }
 
-func (message Message) setPayload(body []byte) Error {
+func (message Message) setPayload(body []byte) error {
 	event, err := message.GetHeaderField("X-Github-Event")
 
 	if err != nil {
@@ -40,12 +40,19 @@ func (message Message) setPayload(body []byte) Error {
 	if err != nil {
 		return err
 	}
+
+	return nil
 }
 
-func NewMessage(request *http.Request) (*Message, Error) { 
+func NewMessage(request *http.Request) (*Message, error) { 
 	message := Message{Header: request.Header}
-	body := ioutil.ReadAll(request.Body)
-	err := message.setPayload(body)
+	body, err := ioutil.ReadAll(request.Body)
+
+	if err != nil {
+		return nil, err
+	}
+
+	err = message.setPayload(body)
 	
 	if err != nil {
 		return nil, err

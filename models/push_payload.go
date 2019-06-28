@@ -1,7 +1,7 @@
 package models
 
 import (
-
+	"encoding/json"
 )
 
 type PushPayload struct {
@@ -20,7 +20,7 @@ type PushPayload struct {
     Sender     Sender     `json:"sender"`
 }
 
-func (pushPayload PushPayload) parsePayload(body []byte) Error {
+func (pushPayload PushPayload) parsePayload(body []byte) error {
 	err := json.Unmarshal(body, &pushPayload)
 	
 	if err != nil {
@@ -30,7 +30,7 @@ func (pushPayload PushPayload) parsePayload(body []byte) Error {
 	return nil
 }
 
-func NewPushPayload(body []byte) (*PushPayload, Error) {
+func NewPushPayload(body []byte) (*PushPayload, error) {
 	pushPayload := PushPayload{}
 	err := pushPayload.parsePayload(body)
 	
