@@ -1,9 +1,9 @@
 package endpoint
 
 import (
-	"fmt"
 	"log"
 	"net/http"
+	"io/ioutil"
 
 	"github.com/ZacharyGroff/GitHooks/config"
 	"github.com/ZacharyGroff/GitHooks/processors"
@@ -19,26 +19,42 @@ type Endpoint struct {
 
 
 func (endpoint Endpoint) handler(writer http.ResponseWriter, request *http.Request) {
-	message := models.NewMessage(request)
-	
-	fmt.Printf("Body:\n%s\n\n", message.Body)
-	fmt.Printf("X-GitHub-Event: %s\n", message.Event)
-	fmt.Printf("X-Hub-Signature: %s\n", message.Hmac)
+	message, err := models.NewMessage(request)
 
-	if endpoint.validator.ValidateHMAC(message) {
-		endpoint.routeEvent(message)
+	if err != nil {
+		log.Fatalf("Failed to create message with error: %s\n", err)
+	}
+
+	hmac, _ := message.GetHeaderField("X-Hub-Signature")
+	trimmedHmac := []byte(hmac)[5:]
+	body, _ := ioutil.ReadAll(request.Body)
+
+	if endpoint.validator.ValidateHMAC(trimmedHmac, body) {
+		err := endpoint.routeEvent(message)
+
+		if err != nil {
+			log.Fatalf("Unable to route message")
+		}
 	} else {
-		log.Fatalf("Message validation failed. Message HMAC: %s\n", message.Hmac)
+		log.Fatalf("Message validation failed. Message HMAC: %s\n", hmac)
 	}
 }
 
-func (endpoint Endpoint) routeEvent(message *models.Message) {
-	switch message.Event {
+func (endpoint Endpoint) routeEvent(message *models.Message) error {
+	event, err := message.GetHeaderField("X-Github-Event")
+
+	if err != nil {
+		return err
+	}
+
+	switch event {
 	case "push":
 		endpoint.pushProcessor.HandleMessage(message)
 	default:
-		log.Printf("Unhandled event %s detected.\n", message.Event)
+		log.Printf("Unhandled event %s detected.\n", event)
 	}
+
+	return nil
 }
 
 func NewEndpoint(
