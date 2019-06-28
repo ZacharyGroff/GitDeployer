@@ -1,9 +1,5 @@
 package models
 
-import (
-	"time"
-)
-
 type Commits struct {
     Added     []string  `json:"added"`
     Author    Author    `json:"author"`
@@ -13,6 +9,6 @@ type Commits struct {
     Message   string    `json:"message"`
     Modified  []string  `json:"modified"`
     Removed   []string  `json:"removed"`
-    Timestamp time.Time `json:"timestamp"`
+    Timestamp Time      `json:"timestamp"`
     Url       string    `json:"url"`
 }

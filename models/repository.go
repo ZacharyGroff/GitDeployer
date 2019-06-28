@@ -1,9 +1,5 @@
 package models
 
-import (
-	"time"
-)
-
 type Repository struct {
     ArchiveUrl       string    `json:"archive_url"`
     AssigneesUrl     string    `json:"assignees_url"`
@@ -16,7 +12,7 @@ type Repository struct {
     CompareUrl       string    `json:"compare_url"`
     ContentsUrl      string    `json:"contents_url"`
     ContributorsUrl  string    `json:"contributors_url"`
-    CreatedAt        time.Time `json:"created_at"`
+    CreatedAt        Time      `json:"created_at"`
     DefaultBranch    string    `json:"default_branch"`
     Description      string    `json:"description"`
     DownloadsUrl     string    `json:"downloads_url"`
@@ -56,7 +52,7 @@ type Repository struct {
     Owner            Owner     `json:"owner"`
     Private          bool      `json:"private"`
     PullsUrl         string    `json:"pulls_url"`
-    PushedAt         time.Time `json:"pushed_at"`
+    PushedAt         Time      `json:"pushed_at"`
     ReleasesUrl      string    `json:"releases_url"`
     SshUrl           string    `json:"ssh_url"`
     Size             int       `json:"size"`
@@ -71,7 +67,7 @@ type Repository struct {
     TeamsUrl         string    `json:"teams_url"`
     TreesUrl         string    `json:"trees_url"`
     Url              string    `json:"url"`
-    UpdatedAt        time.Time `json:"updated_at"`
+    UpdatedAt        Time      `json:"updated_at"`
     Watchers         int       `json:"watchers"`
     WatchersCount    int       `json:"watchers_count"`
 }
