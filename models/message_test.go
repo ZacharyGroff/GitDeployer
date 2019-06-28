@@ -6,39 +6,41 @@ import (
 	"net/http/httptest"
 )
 
-func TestGetHeaderKeySuccess(t *testing.T) {
-	expected := "testEvent"
+func TestGetHeaderFieldSuccess(t *testing.T) {
+	expected := "push"
 	
-	request := httptest.NewRequest("POST", "/", strings.NewReader("testBody"))
-	request.Header.Add("X-Github-Event", "testEvent")
+	request := httptest.NewRequest("POST", "/", strings.NewReader("{}"))
+	request.Header.Add("X-Github-Event", "push")
 
-	message := NewMessage(request)		
-	actual, err := message.GetHeaderKey("X-Github-Event")
+	message, _ := NewMessage(request)		
+	actual, _ := message.GetHeaderField("X-Github-Event")
 
 	if strings.Compare(expected, actual) != 0 {
 		t.Errorf("Expected: %s\nActual: %s\n", expected, actual)
 	}
 }
 
-func TestGetHeaderKeyErrorNonexistant(t *testing.T) {
-	request := httptest.NewRequest("POST", "/", strings.NewReader("testBody"))
-	request.Header.Add("X-Github-Event", "testEvent")
+func TestGetHeaderFieldErrorNonexistant(t *testing.T) {
+	request := httptest.NewRequest("POST", "/", strings.NewReader("{}"))
+	request.Header.Add("X-Github-Event", "push")
 
-	message := NewMessage(request)
-	actual, err := message.GetHeaderKey("X-Github-Event")
+	message, _ := NewMessage(request)
+	_ , err := message.GetHeaderField("X-Github-Event")
 
 	if err != nil {
-		t.Errorf("Did not expect error from GetHeaderKey")
+		t.Errorf("Did not expect error from GetHeaderField")
 	}
 }
 
-func TestGetHeaderKeyErrorExists(t *testing.T) {
-	request := httptest.NewRequest("POST", "/", strings.NewReader("testBody"))
-	
-	message := NewMessage(request)
-	actual, err := message.GetHeaderKey("X-Github-Event")
+func TestGetHeaderFieldErrorExists(t *testing.T) {
+	defer func() {
+		if err := recover(); err == nil {
+			t.Errorf("Expected error from GetHeaderField")
+		}
+	}()
 
-	if err == nil {
-		t.Errorf("Expected error from GetHeaderKey")
-	}
+	request := httptest.NewRequest("POST", "/", strings.NewReader("{}"))
+	
+	message, _ := NewMessage(request)
+	message.GetHeaderField("X-Github-Event")
 }
