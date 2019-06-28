@@ -29,7 +29,8 @@ func (v Validator) ValidateHMAC(messageHmac []byte, body []byte) bool {
 	}
 
 	hexHash := hex.EncodeToString(hash.Sum(nil))	
-	log.Printf("hash: %s", hexHash)
+	log.Printf("@@@hash: %s", hexHash)
+	log.Printf("@@@hash: %s", messageHmac)
 	return hmac.Equal([]byte(hexHash), messageHmac)
 }
 
