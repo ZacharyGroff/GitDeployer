@@ -32,9 +32,12 @@ func (message Message) setPayload(body []byte) Error {
 
 	switch event {
 	case "push":
-		message.Payload = NewPushPayload(body)
+		message.Payload, err = NewPushPayload(body)
 	default:
-		err := fmt.Errorf("Unhandled event %s detected.", event)
+		err = fmt.Errorf("Unhandled event %s detected.", event)
+	}
+
+	if err != nil {
 		return err
 	}
 }
