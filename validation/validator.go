@@ -8,7 +8,6 @@ import (
 	"encoding/hex"
 
 	"github.com/ZacharyGroff/GitHooks/config"
-	"github.com/ZacharyGroff/GitHooks/models"
 )
 
 type Validator struct {
@@ -16,13 +15,13 @@ type Validator struct {
 	secret []byte
 }
 
-func (validator Validator) ValidateHMAC(message *models.Message) bool {
-	if validator.config.Validate == false {
+func (v Validator) ValidateHMAC(messageHmac []byte, body []byte) bool {
+	if v.config.Validate == false {
 		return true
 	}
 	
-	hash := hmac.New(sha1.New, validator.secret)
-	_, err := hash.Write([]byte(message.Body))
+	hash := hmac.New(sha1.New, v.secret)
+	_, err := hash.Write([]byte(body))
 
 	if err != nil {
 		log.Printf("Error creating the message hash. Error: %s", err)
@@ -30,8 +29,7 @@ func (validator Validator) ValidateHMAC(message *models.Message) bool {
 	}
 
 	hexHash := hex.EncodeToString(hash.Sum(nil))	
-	log.Printf("hash: %s", hexHash)
-	return hmac.Equal([]byte(hexHash), message.Hmac)
+	return hmac.Equal([]byte(hexHash), messageHmac)
 }
 
 func NewValidator(config *config.Config) *Validator {
