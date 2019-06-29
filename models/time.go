@@ -19,14 +19,15 @@ func (t *Time) UnmarshalJSON(data []byte) error {
 		t.Time = time.Time{}
 		return nil
 	}
-	
-	error := t.Time.UnmarshalJSON(data)
-	if error == nil {
+
+	var seconds int64
+	err := t.Time.UnmarshalJSON(data)
+	if err == nil {
 		return nil
 	}
 
 	trimmedBytes := string(bytes.Trim(data, `"`))
-	seconds, err := strconv.ParseInt(trimmedBytes, 10, 64)
+	seconds, err = strconv.ParseInt(trimmedBytes, 10, 64)
 	if err != nil {
 		return err
 	}
