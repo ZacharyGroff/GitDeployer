@@ -4,14 +4,12 @@ import (
 	"log"
 	"net/http"
 	"io/ioutil"
-	"github.com/ZacharyGroff/GitHooks/config"	
 	"github.com/ZacharyGroff/GitHooks/processors"
 	"github.com/ZacharyGroff/GitHooks/models"
 	"github.com/ZacharyGroff/GitHooks/validation"
 )
 
 type Router struct {
-	config *config.Config
 	pushProcessor *processors.PushProcessor
 	validator *validation.Validator
 }
@@ -32,8 +30,6 @@ func (router Router) Route(request *http.Request) {
 		log.Fatalf("Unable to route event with error %s\n", err)
 	}
 }
-
-
 
 func (router Router) validate(message *models.Message, request *http.Request) bool {
 	hmac, _ := message.GetHeaderField("X-Hub-Signature")
@@ -58,4 +54,8 @@ func (router Router) routeEvent(message *models.Message) error {
 	}
 
 	return nil
+}
+
+func NewRouter(p *processors.PushProcessor, v *validation.Validator) *Router {
+	return &Router{p, v}
 }
