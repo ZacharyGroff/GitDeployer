@@ -16,13 +16,13 @@ type Router struct {
 
 func (router Router) Route(request *http.Request) {
 	message, err := models.NewMessage(request)
-
 	if err != nil {
 		log.Fatalf("Failed to create message with error: %s\n", err)
 	}
 
-	if !router.validate(message, request) {
-		log.Fatal("Message validation failed.")
+	err = router.validate(message, request)
+	if err != nil {
+		log.Fatalf("Message validation failed with error: %s\n", err)
 	}
 
 	err = router.routeEvent(message)
@@ -31,12 +31,12 @@ func (router Router) Route(request *http.Request) {
 	}
 }
 
-func (router Router) validate(message *models.Message, request *http.Request) bool {
+func (router Router) validate(message *models.Message, request *http.Request) error {
 	hmac, _ := message.GetHeaderField("X-Hub-Signature")
 	trimmedHmac := []byte(hmac)[5:]
 	body, _ := ioutil.ReadAll(request.Body)
 
-	return router.validator.ValidateHMAC(trimmedHmac, body)
+	return router.validator.ValidateHmac(trimmedHmac, body)
 }
 
 func (router Router) routeEvent(message *models.Message) error {
