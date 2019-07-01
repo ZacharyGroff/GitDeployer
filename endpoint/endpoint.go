@@ -7,12 +7,10 @@ import (
 	"github.com/ZacharyGroff/GitHooks/router"
 )
 
-
 type Endpoint struct {
 	config *config.Config
 	router *router.Router
 }
-
 
 func (endpoint Endpoint) handler(writer http.ResponseWriter, request *http.Request) {
 	endpoint.router.Route(request)
