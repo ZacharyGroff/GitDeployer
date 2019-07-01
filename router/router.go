@@ -1,6 +1,10 @@
 package router
 
 import (
+	"log"
+	"net/http"
+	"io/ioutil"
+	"github.com/ZacharyGroff/GitHooks/config"	
 	"github.com/ZacharyGroff/GitHooks/processors"
 	"github.com/ZacharyGroff/GitHooks/models"
 	"github.com/ZacharyGroff/GitHooks/validation"
@@ -12,18 +16,26 @@ type Router struct {
 	validator *validation.Validator
 }
 
-func (router Router) Route(message *models.Message) {
-		if !router.validate(message) {
-			log.Fatal("Message validation failed.")
-		}
-		
-		err := router.routeEvent(message)
-		if err != nil {
-			log.Fatal("Unable to route event with error %s\n", err)
-		}
+func (router Router) Route(request *http.Request) {
+	message, err := models.NewMessage(request)
+
+	if err != nil {
+		log.Fatalf("Failed to create message with error: %s\n", err)
+	}
+
+	if !router.validate(message, request) {
+		log.Fatal("Message validation failed.")
+	}
+
+	err = router.routeEvent(message)
+	if err != nil {
+		log.Fatalf("Unable to route event with error %s\n", err)
+	}
 }
 
-func (router Router) validate(message *models.Message) error {
+
+
+func (router Router) validate(message *models.Message, request *http.Request) bool {
 	hmac, _ := message.GetHeaderField("X-Hub-Signature")
 	trimmedHmac := []byte(hmac)[5:]
 	body, _ := ioutil.ReadAll(request.Body)
