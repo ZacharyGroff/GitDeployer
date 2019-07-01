@@ -3,8 +3,6 @@ package endpoint
 import (
 	"log"
 	"net/http"
-	"io/ioutil"
-
 	"github.com/ZacharyGroff/GitHooks/config"
 	"github.com/ZacharyGroff/GitHooks/router"
 )
