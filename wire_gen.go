@@ -9,6 +9,7 @@ import (
 	"github.com/ZacharyGroff/GitHooks/config"
 	"github.com/ZacharyGroff/GitHooks/endpoint"
 	"github.com/ZacharyGroff/GitHooks/processors"
+	"github.com/ZacharyGroff/GitHooks/router"
 	"github.com/ZacharyGroff/GitHooks/validation"
 )
 
@@ -19,6 +20,7 @@ func InitializeEndpoint() endpoint.Endpoint {
 	deployer := processors.NewDeployer(configConfig)
 	pushProcessor := processors.NewPushProcessor(deployer, configConfig)
 	validator := validation.NewValidator(configConfig)
-	endpointEndpoint := endpoint.NewEndpoint(configConfig, pushProcessor, validator)
+	routerRouter := router.NewRouter(pushProcessor, validator)
+	endpointEndpoint := endpoint.NewEndpoint(configConfig, routerRouter)
 	return endpointEndpoint
 }
