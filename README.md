@@ -1,2 +1,2 @@
-# GitHooks
-[![Build Status](https://travis-ci.com/ZacharyGroff/GitHooks.svg?branch=master)](https://travis-ci.com/ZacharyGroff/GitHooks)
+# GitDeployer
+[![Build Status](https://travis-ci.com/ZacharyGroff/GitDeployer.svg?branch=master)](https://travis-ci.com/ZacharyGroff/GitDeployer)
