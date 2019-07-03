@@ -6,11 +6,11 @@
 package main
 
 import (
-	"github.com/ZacharyGroff/GitHooks/config"
-	"github.com/ZacharyGroff/GitHooks/endpoint"
-	"github.com/ZacharyGroff/GitHooks/processors"
-	"github.com/ZacharyGroff/GitHooks/router"
-	"github.com/ZacharyGroff/GitHooks/validation"
+	"github.com/ZacharyGroff/GitDeployer/config"
+	"github.com/ZacharyGroff/GitDeployer/endpoint"
+	"github.com/ZacharyGroff/GitDeployer/processors"
+	"github.com/ZacharyGroff/GitDeployer/router"
+	"github.com/ZacharyGroff/GitDeployer/validation"
 )
 
 // Injectors from wire.go:

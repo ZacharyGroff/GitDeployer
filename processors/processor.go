@@ -1,7 +1,7 @@
 package processors
 
 import (
-	"github.com/ZacharyGroff/GitHooks/models"
+	"github.com/ZacharyGroff/GitDeployer/models"
 )
 
 type Processor interface {

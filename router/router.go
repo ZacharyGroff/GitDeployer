@@ -4,9 +4,9 @@ import (
 	"log"
 	"net/http"
 	"io/ioutil"
-	"github.com/ZacharyGroff/GitHooks/processors"
-	"github.com/ZacharyGroff/GitHooks/models"
-	"github.com/ZacharyGroff/GitHooks/validation"
+	"github.com/ZacharyGroff/GitDeployer/processors"
+	"github.com/ZacharyGroff/GitDeployer/models"
+	"github.com/ZacharyGroff/GitDeployer/validation"
 )
 
 type Router struct {
