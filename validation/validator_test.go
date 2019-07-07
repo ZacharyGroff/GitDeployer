@@ -2,8 +2,7 @@ package validation
 
 import (
 	"testing"
-
-	"github.com/ZacharyGroff/GitHooks/config"
+	"github.com/ZacharyGroff/GitDeployer/config"
 )
 
 func TestValidateHMACPasses(t *testing.T) {

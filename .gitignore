@@ -6,7 +6,7 @@
 *.dylib
 *.swp
 
-GitHooks
+GitDeployer
 github.com/
 
 # Test binary, build with `go test -c`

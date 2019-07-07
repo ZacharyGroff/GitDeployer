@@ -3,8 +3,8 @@ package endpoint
 import (
 	"log"
 	"net/http"
-	"github.com/ZacharyGroff/GitHooks/config"
-	"github.com/ZacharyGroff/GitHooks/router"
+	"github.com/ZacharyGroff/GitDeployer/config"
+	"github.com/ZacharyGroff/GitDeployer/router"
 )
 
 type Endpoint struct {

@@ -2,8 +2,8 @@ package processors
 
 import (
 	"log"
-	"github.com/ZacharyGroff/GitHooks/config"
-	"github.com/ZacharyGroff/GitHooks/models"
+	"github.com/ZacharyGroff/GitDeployer/config"
+	"github.com/ZacharyGroff/GitDeployer/models"
 )
 
 type PushProcessor struct {

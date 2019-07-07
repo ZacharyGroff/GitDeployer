@@ -4,9 +4,9 @@ import (
 	"log"
 	"net/http"
 	"io/ioutil"
-	"github.com/ZacharyGroff/GitHooks/processors"
-	"github.com/ZacharyGroff/GitHooks/models"
-	"github.com/ZacharyGroff/GitHooks/validation"
+	"github.com/ZacharyGroff/GitDeployer/processors"
+	"github.com/ZacharyGroff/GitDeployer/models"
+	"github.com/ZacharyGroff/GitDeployer/validation"
 )
 
 type Router struct {
@@ -32,9 +32,13 @@ func (router Router) Route(request *http.Request) {
 }
 
 func (router Router) validate(message *models.Message, request *http.Request) error {
-	hmac, _ := message.GetHeaderField("X-Hub-Signature")
+	hmac, err := message.GetHeaderField("X-Hub-Signature")
 	trimmedHmac := []byte(hmac)[5:]
-	body, _ := ioutil.ReadAll(request.Body)
+	body, err := ioutil.ReadAll(request.Body)
+
+	if err != nil {
+		return err
+	}
 
 	return router.validator.ValidateHmac(trimmedHmac, body)
 }

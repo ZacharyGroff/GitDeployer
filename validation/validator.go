@@ -6,7 +6,7 @@ import (
 	"crypto/hmac"
 	"crypto/sha1"
 	"encoding/hex"
-	"github.com/ZacharyGroff/GitHooks/config"
+	"github.com/ZacharyGroff/GitDeployer/config"
 )
 
 type Validator struct {
