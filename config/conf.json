@@ -1,6 +1,0 @@
-{
-	"port": ":8080",
-	"route": "/webhook",
-	"scriptPath": "processors/test.sh",
-	"validate": true
-}

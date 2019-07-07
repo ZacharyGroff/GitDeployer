@@ -25,7 +25,7 @@ func (config *Config) parseConfig(path string) error {
 
 func NewConfig() *Config {
 	config := Config{}
-	err := config.parseConfig("config/conf.json")
+	err := config.parseConfig("conf.json")
 	
 	if err != nil {
 		log.Fatal("Error while parsing config")
