@@ -45,5 +45,4 @@ Please feel free to open an issue if you wish to add any features to the
 codebase!
 
 ## License
-
-
+See the [LICENSE](LICENSE) file for license rights and limitations (GPLv3).
